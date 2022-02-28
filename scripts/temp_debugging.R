@@ -1,47 +1,47 @@
-
-guys <- Guys
-gals <- Gals
-guy_pref <- Guy_pref
-gal_pref <- Gal_pref
-
-
-guys_free <- guys
-engaged_M <- list()
-for (i in 1:length(guys)) {
-  engaged_M[[i]] <- list(guys[[i]],NA_character_)
+# DA example
+M_in <- 15
+W_in <- 8
+P_in <- sample(1:W_in)
+for (i in 1:(M_in - 1)) {
+  P_in <- rbind(P_in, sample(1:W_in))
 }
-while (length(guys_free) > 0) {
-  guy <- guys_free[[1]]
-  guys_free <- guys_free[-which(guys_free == guy)] # mark selected guy as no longer free
-  gal <- guy_pref[[guy]][[1]]
-  guy_pref[[guy]] <- guy_pref[[guy]][-1] # remove girl he proposes to from his prefs
-  fiance <- NA_character_
-  for (i in 1:length(guys)) { # check if she has a fiance
-    if(!is.na(engaged_M[[i]][[2]]) && engaged_M[[i]][[2]] == gal) {
-      fiance <- engaged_M[[i]][[1]]
-    }
-  }
-  if (is.na(fiance)) {
-    # she's free
-    engaged_M[[which(guys == guy)]][[2]] <- gal
-  } else {
-    # she is already engaged
-    if (which(gal_pref[[gal]] == fiance) > which(gal_pref[[gal]] == guy)) {
-      # she prefers the new guy
-      engaged_M[[which(guys == guy)]][[2]] <- gal
-      engaged_M[[which(guys == fiance)]][[2]] <- NA_character_
-      if (length(guy_pref[[fiance]]) != 0) {
-        # Ex fiance has more girls to propose to
-        guys_free <- append(guys_free, fiance)
-      }
-    }
-    else {
-      # she is faithful to old fiance
-      if (length(guy_pref[[guy]]) > 0) {
-        # mark guy as free again if he has gals left to propose to
-        guys_free <- append(guys_free, guy)
-      }
-    }
-  }
+
+# test DA
+DA_M(M_in, W_in, P_in, R_in)
+DA_W(M_in, W_in, P_in, R_in)
+
+# DACC example
+M <- 60
+W <- 100
+Pref_M <- sample(1:W)
+for (i in 1:(M - 1)) {
+  Pref_M <- rbind(Pref_M, sample(1:W))
 }
-engaged_M
+Pref_W <- sample(1:M)
+for (i in 1:(W - 1)) {
+  Pref_W <- rbind(Pref_W, sample(1:M))
+}
+Phi <- sample(c(1:M,-1:-W), 50 * M * W, replace = T)
+
+# Pref_M <- matrix(as.integer(c(1,2,3,3,1,2,2,3,1)), nrow = 3, byrow = T)
+# Pref_W <- matrix(as.integer(c(3,1,2,2,3,1,1,2,3)), nrow = 3, byrow = T)
+# Phi <- sample(c(1:3,-1:-3), 200, replace = T)
+
+DA_M(Pref_M, Pref_W)
+DA_W(Pref_M, Pref_W)
+DACC(Pref_M, Pref_W, Phi)
+
+
+
+Mu <- matrix(rep(0L, M * W), nrow = M, ncol = W)
+CC <- c()
+Budget_M <- matrix(rep(1L, M * W), nrow = M, ncol = W)
+Budget_W <- matrix(rep(1L, M * W), nrow = W, ncol = M)
+A_M <- matrix(rep(0L, M * W), nrow = M, ncol = W)
+A_W <- matrix(rep(0L, M * W), nrow = W, ncol = M)
+
+A_M; A_W; Budget_M; Budget_W; Mu
+typeof(A_M); typeof(A_W); typeof(Budget_M); typeof(Budget_W); typeof(Mu)
+
+
+

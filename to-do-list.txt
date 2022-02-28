@@ -10,3 +10,5 @@
 
 3) loop over data with 100 Phi sequences for each of the 30 data generations. Do this for each of the three sim
    types
+
+4) Put the results in an RMarkdown that allows change pairs (M,W).
