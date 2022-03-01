@@ -1,0 +1,30 @@
+---
+title: "DACC Matching Results"
+author: "Joe Jourden"
+date: "2/24/2022"
+output: pdf_document
+---
+```{r, echo = FALSE, message = FALSE, include = FALSE}
+library(kableExtra)
+library(tidyverse)
+```
+
+```{r, echo = FALSE}
+MW <- read.csv("../data/choose_MW.csv")
+M <- MW[1]; W <- MW[2]
+ft_note <- paste0(M, " men and ", W," women in each generation 1-30;")
+output_df <- read.csv("../output/matching_results.csv")
+output_df <- cbind(1:30,output_df)
+for (i in c(2,4)) {
+  output_df[,i] = cell_spec(output_df[,i], color = if_else(output_df[,i] == 100, "#000080", "red"))
+}
+output_df[,3] = cell_spec(output_df[,3], color = if_else(output_df[,3] == 0, "#000080", "red"))
+kable(output_df, escape = F, col.names = c('','$\\mu_M$', '$\\mu^*$', '$\\mu_W$'),
+      booktabs = T, linesep = "", align = "c", caption = "DACC Matching Results for 30 Data Generations") %>%
+  kable_styling(latex_options = "striped", position = "center", full_width = F) %>%
+  column_spec(2:4, width = "2.25cm") %>%
+  footnote(number = c(ft_note, 'Run DACC on 100 sequences in each generation;',
+                      'Row is 100,0,100 if gen. has unique stable matching.'))
+  
+# kable_styling(position = "center", "striped", full_width = F)
+```

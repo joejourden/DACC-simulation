@@ -8,3 +8,5 @@ I keep the simulated data presented in the paper in the folder "data-original". 
 1. simulate preference data. (Output stored in "data-example" or "data-replication")
 2. functions for DA and DACC algorithms
 3. main block runs DACC 100 times per market, exports pdf document summarizing results
+
+#### To change number of men/women, edit 'choose_MW.csv' in data folder. (default M=20, W=25)

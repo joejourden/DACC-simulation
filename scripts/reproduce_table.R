@@ -3,8 +3,8 @@ source("scripts/DACC_code.R")
 source("scripts/DACC_helper.R")
 source("scripts/generate_data.R")
 
-M <- 25
-W <- 20
+MW <- read.csv("data/choose_MW.csv")
+M <- MW[1]; W <- MW[2]
 Pref_arrays <- generate_data(M, W)
 
 output_df <- data.frame(matrix(0, ncol = 3, nrow = 30))
