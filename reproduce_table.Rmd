@@ -1,7 +1,6 @@
 ---
-title: "DACC Matching Results"
+title: "Fair? Matching Algorithm"
 author: "Joe Jourden"
-date: "2/24/2022"
 output: pdf_document
 ---
 ```{r, echo = FALSE, message = FALSE, include = FALSE}
@@ -9,6 +8,61 @@ library(kableExtra)
 library(tidyverse)
 ```
 
+# Introduction	
+
+The men-proposing Deferred Acceptance (DA) algorithm of Gale and Shapley \cite{GS} shows the existence of a stable matching in any marriage problem. Stability has proven to be important in applications using extensions of men-proposing DA. For instance, in school choice \cite{School Choice}, matching doctors to residencies \cite{Doctors}, and more recently matching cadets with branches of the U.S. military \cite{Cadets}. In his paper, "Deferred Acceptance With Compensation Chains", Piotr Dworczak provides an algorithm, Deferred Acceptance With Compensation Chains (DACC), with an interesting result: "A matching is stable if
+and only if it is the outcome of a DACC algorithm" \cite{DACC}. Moreover, Dworczak also states that DACC could be an attractive algorithm when the market designer is concerned about procedural fairness, with reference to Klaus and Klijn, 2006 \cite{Fairness}. It is not clear why a market designer would be concerned with this definition of "procedural fairness" that depends on intermediate steps of the algorithm; rather we would suspect that a market designer would care about the distribution of outcomes given a data generating process for the economy, if the market designer cares about any *ex-ante* notion of fairness at all.
+
+Hence, I use DACC as a case study for ``procedurally-fair" algorithms. I simulate matching economies, taking inspiration for the preference structure from the dating markets modelled by Hitsch, Horta\c csu, and Ariely \cite{Dating}, and I run DACC$(\Phi)$ repeatedly using different orderings $\Phi$. For each repetition, I report whether DACC$(\Phi)$ converges to the men-optimal stable matching, the women-optimal stable matching, or an intermediate one. The result is that, under my preference structure and randomly drawing the ordering $\Phi$, DACC($\Phi$) tends to pick the stable matching optimal for the side of the market with more agents, when multiple stable matchings exist.
+
+# DACC Algorithm
+
+In this algorithm agents make offers one at a time in a pre-specified order. Agents who receive offers can accept if the offer is better than their current match or reject if not. Because agents from both sides are allowed to propose, unlike in men-prosing DA, in DACC it is possible for agents to renege on their proposal---one agent $i$ may propose to an agent $j$, but upon receiving a better offer $i$ divorces $j$. As Dworczak describes, this reneging on a proposal, called deception, initiates to compensation chain (CC). These CC's serve the purpose of guaranteeing convergence of DACC to a matching.
+
+DACC works as follows:
+
+1. Agents (from either side) propose in a pre-specified order $\Phi$
+2. When proposing, agents make a proposal to best available partner
+3. When receiving, agents (tentatively) accept an offer if the proposer is preferred to their current partner
+4. Partners become unavailable to $i$ when they reject or divorce $i$. Partners become available to $i$ when they propose to $i$.
+5. When an agent $i$ is divorced by $j$ who previously proposed to $i$, we say that $i$ is *deceived*, and we *compensate* $i$ by allowing $i$ to make an additional offer out of turn.
+
+A few points about DACC should be help to understand the following sections:
+
+* The algorithm depends on a pre-specified ordering $\Phi$ of agents.
+* Given any stable matching $\mu$, there exists ordering $\Phi$ such that DACC$(\Phi)$ (DACC run using ordering $\Phi$) converges in finite time to $\mu$. Hence, if $\Phi$ is constructed randomly, DACC($\Phi$) converges to each stable matching with positive probability.
+
+# Preference Generation
+
+
+
+\pagebreak
+
+# Results
+
+The first column gives the simulation number for reference. Then, each of the three tables give the results of the three types of simulation, which differ by number of men $M$ and number of women $W$ in the economy. For each simulation type $E$, I simulate 30 economies with the same $M,W$. For each of these economies, I draw $\Phi$ 100 times and summarize the results of DACC$(\Phi)$ for all of these draws by frequency of $\mu_M$, $\mu_W$ and $\tilde{\mu}\not \in \{\mu_M,\mu_W\}$.
+
+In the type $E_1$ market simulations and the type $E_3$ market simulations, I mark in red the simulated markets in which I find a result besides a unique stable matching (whenever $\mu_M=\mu_W$ is the unique stable matching, they both occur for all 100 draws of $\Phi$). For the type $E_2$ simulations, I mark red simulations that achieve $\mu_M$ or $\mu_W$ at least once.
+
+When $M=112$ and $W=88$, as in simulation type $E_1$, there is often a unique stable matching, and when there is more than one stable matching, DACC($\Phi$) almost always converges to the men-optimal stable matching. It is intuitive that DACC favors the men-optimal matching, as DACC is the same as men-proposing DA when only men are in $\Phi$. Since there are mostly men in this type $E_1$ of economy, $\Phi$ tends to include men more often than women, so DACC$(\Phi)$ is closer to men-proposing DA than it is to women-proposing DA. Thus, we should expect DACC to often converge to a matching closer to $\mu_M$ than it is to $\mu_W$.
+
+When $M=88$ and $W=112$, as in simulation type $E_3$, the results are symmetric to the $E_1$ simulations, except favoring the women-optimal stable matching $\mu_W$.
+
+When $M=100$ and $W=100$, as in simulation type $E_2$, none of the simulated economies have only one unique stable matching, which is a stark difference from the other two simulation types. Additionally, DACC$(\Phi)$ rarely converges to either extreme stable matching.
+
+# Conclusion
+
+When an economy is generated as in Section 3 and $M=112$ and $W=88$, or $M=88$ and $W=112$, DACC$(\Phi)$ with $\Phi$ constructed by drawing from a uniform random with support $M\cup W$ tends to converge to the best stable matching for the side of the market with more agents, and rarely converges to other matchings.
+
+When $W=M=100$, DACC$(\Phi)$ tends to converge to an intermediate stable matching, and such intermediate stable matchings exists in all of the simulations I conduct.
+
+Using DACC, any stable matching can be reached by choice of $\Phi$. However, depending on the structure of the economy, i.e. number of agents on each side and the preference-generating process, DACC with random uniform construction of $\Phi$ can tend towards particular stable matchings unevenly. It would likely be a mistake to consider the label of DACC as "procedurally fair" as a desirable feature of the algorithm for a market designer. Moreover, the *ex-ante* notion of procedural fairness does seem to be useful for a market designer concerned with outcomes. Perhaps a better *ex-ante* notion of fairness in matching markets should only apply to algorithms that would pass such an analysis as this with results that better fit our intuition of fairness.
+
+
+
+
+
+\newpage
 ```{r, echo = FALSE}
 MW <- read.csv("./data/choose_MW.csv")
 M <- MW[[1]]; W <- MW[[2]]
@@ -23,3 +77,25 @@ kable(output_df, escape = F, col.names = c('','$\\mu_M$', '$\\mu^*$', '$\\mu_W$'
   footnote(number = c(ft_note, 'Run DACC on 100 sequences in each generation;',
                       'Row values blue if gen. has unique stable matching.'))
 ```
+
+
+\begin{thebibliography}{6}
+\bibitem{School Choice}
+Abdulkadiro$\breve{\text g}$lu, Atila, and Tayfun S$\ddot{\text o}$nmez. "School choice: A mechanism design approach." *American economic review* 93.3 (2003): 729-747.
+
+\bibitem{DACC} 
+Dworczak, Piotr. ``Deferred acceptance with compensation chains." *Proceedings of the 2016 ACM Conference on Economics and Computation*. 2016.
+
+\bibitem{GS} 
+Gale, David, and Lloyd S. Shapley. "College admissions and the stability of marriage." *The American Mathematical Monthly* 69, no. 1 (1962): 9--15.
+
+\bibitem{Doctors}
+McKinney, C. Nicholas, Muriel Niederle, and Alvin E. Roth. "The collapse of a medical labor clearinghouse (and why such failures are rare)." *American Economic Review* 95.3 (2005): 878-889.
+
+\bibitem{Cadets}
+S$\ddot{\text o}$nmez, Tayfun, and Tobias B. Switzer. "Matching with (branch‐of‐choice) contracts at the United States military academy." *Econometrica* 81.2 (2013): 451-488.
+
+\bibitem{Fairness}
+Klaus, Bettina, and Flip Klijn. "Procedurally fair and stable matching." *Economic Theory* 27.2 (2006): 431-447.
+
+\end{thebibliography}
