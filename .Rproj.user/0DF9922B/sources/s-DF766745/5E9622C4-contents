@@ -149,30 +149,6 @@ ggsave("./output/barplot2.png", plot = barplot2, device="png")
 
 The final figure reveals the distribution of DACC results excluding markets with a unique stable matching. Because there are 100 drawings of $\Phi$ for each of the 100 markets in each market type, each bar is bounded by 10,000. When a market has significantly more men than women, or women than men, DACC$(\Phi)$ tends to converge to the best stable matching for the side of the market with more agents, and rarely converges to an intermediate matching, if one exists. When a market has a similar number of men and women, DACC($\Phi$) tends to converge to an intermediate stable matching, the men-optimal stable matching, and the women-optimal stable matching with similar likelihood. See Table 2 in the Appendix for exact proportions of match type, for each market type.
 
-# Linear Programming
-
-A *matching* is a one-to-one mapping $\mu$ from the set of men and women $M\cup W$ to itself, such that:
-
-* $\mu(m)=w$ if and only if $\mu(w)=m$, in which case $m$ is matched to $w$.
-* If $\mu(m)$ is not in $W$, then $\mu(m)=m$, in which case $m$ is unmatched.
-* If $\mu(w)$ is not in $M$, then $\mu(w)=w$, in which case $w$ is unmatched.
-
-The *incidence vector* of a matching $\mu$ is a vector $x\in\{0,1\}^{|M|\cdot |W|}$ such that $x_{m,w}=1$ if $\mu(m)=w$ and $x_{m,w}=0$ otherwise.
-
-
-According to Roth, Alvin E., Uriel G. Rothblum and John H. Vande Vate (1993) \cite{linear-programming}, the stable matchings of a market are precisely the *integer* solutions of the following set of linear equations:
-
-1. $\sum_j x_{m,j} \le 1$ for all $m$ in $M$,
-2. $\sum_i x_{i,w} \le  1$ for all $w$ in $W$,
-3. $x_{m,w} \ge 0$ for each $(m,w)\in M\times W$,
-4. $\underset{{\{j\in W:\, j\succ_m w\}}}{\sum} x_{m,j} + \underset{\{i\in M:\, i\succ_w m\}}{\sum} x_{i,w} + x_{m,w} \ge 1$ for all $m\in M$ and $w\in W$.
-
-Moreover, if we let C be the convex polyhedron of solutions to the 
-linear constaints (1)-(4), then the integer points of C are precisely its extreme 
-points. Thus, we may use a linear programming routine to find the vertices of the convex polytope, and span the entire set of stable matchings. Knowing the full set of stable matching will allow us to better assess the outcomes of DACC, because we will know for certain whether intermediate matchings exist. In particular, we may focus on markets known to have intermediate stable matchings, and report what proportion of our simulations converge to such matchings. 
-
-# Bootstrap \% Accuracy of Market Structure Estimates
-In markets that have at least one intermediate matching, on average what \% of the intermediate matchings does our simulation process find? To answer this question, we will look at only a few heuristic markets, which we know to have at least one intermediate matching. We will use a cumbersome, and hence slow, algorithm to span all of the stable matching of these markets. Then we will run our simulation process repeatedly to see what proportion of the intermeidate stable matchings our simulations find.
 
 # Conclusion
 Using DACC, any stable matching can be reached by choice of $\Phi$. However, depending on the structure of the economy, i.e. number of agents on each side and the preference-generating process, DACC with random uniform construction of $\Phi$ can tend towards particular stable matchings unevenly. It would likely be a mistake to consider the label of DACC as "procedurally fair" as a desirable feature of the algorithm for a market designer. Moreover, the *ex-ante* notion of procedural fairness does seem to be useful for a market designer concerned with outcomes. Perhaps a better *ex-ante* notion of fairness in matching markets should only apply to algorithms that would pass such an analysis as this with results that better fit our intuition of fairness. Constraining an *ex-ante* notion of fairness to a particular method of generating the market may serve as a better alternative.
@@ -200,10 +176,6 @@ Klaus, Bettina, and Flip Klijn. "Procedurally fair and stable matching." {\texti
 
 \bibitem{roth-sotomayor}
 Roth, Alvin E., and Marilda Sotomayor. "Two-sided matching." {\textit Handbook of game theory with economic applications} 1 (1992): 485-541.
-
-\bibitem{linear-programming}
-Roth, Alvin E., Uriel G. Rothblum and John H. Vande Vate (1993) "Stable matchings, optimal 
-assignments, and linear programming", {\textit Mathematics of Operations Research}.
 
 \end{thebibliography}
 

@@ -149,6 +149,7 @@ ggsave("./output/barplot2.png", plot = barplot2, device="png")
 
 The final figure reveals the distribution of DACC results excluding markets with a unique stable matching. Because there are 100 drawings of $\Phi$ for each of the 100 markets in each market type, each bar is bounded by 10,000. When a market has significantly more men than women, or women than men, DACC$(\Phi)$ tends to converge to the best stable matching for the side of the market with more agents, and rarely converges to an intermediate matching, if one exists. When a market has a similar number of men and women, DACC($\Phi$) tends to converge to an intermediate stable matching, the men-optimal stable matching, and the women-optimal stable matching with similar likelihood. See Table 2 in the Appendix for exact proportions of match type, for each market type.
 
+
 # Conclusion
 Using DACC, any stable matching can be reached by choice of $\Phi$. However, depending on the structure of the economy, i.e. number of agents on each side and the preference-generating process, DACC with random uniform construction of $\Phi$ can tend towards particular stable matchings unevenly. It would likely be a mistake to consider the label of DACC as "procedurally fair" as a desirable feature of the algorithm for a market designer. Moreover, the *ex-ante* notion of procedural fairness does seem to be useful for a market designer concerned with outcomes. Perhaps a better *ex-ante* notion of fairness in matching markets should only apply to algorithms that would pass such an analysis as this with results that better fit our intuition of fairness. Constraining an *ex-ante* notion of fairness to a particular method of generating the market may serve as a better alternative.
 
@@ -172,6 +173,9 @@ S$\ddot{\text o}$nmez, Tayfun, and Tobias B. Switzer. "Matching with (branch‐o
 
 \bibitem{Fairness}
 Klaus, Bettina, and Flip Klijn. "Procedurally fair and stable matching." {\textit Economic Theory} 27.2 (2006): 431-447.
+
+\bibitem{roth-sotomayor}
+Roth, Alvin E., and Marilda Sotomayor. "Two-sided matching." {\textit Handbook of game theory with economic applications} 1 (1992): 485-541.
 
 \end{thebibliography}
 
